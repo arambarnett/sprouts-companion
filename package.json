@@ -1,0 +1,227 @@
+{
+  "name": "sprouts-companion",
+  "displayName": "Sprouts Companion",
+  "description": "Sprouts — a pixel pet game in your editor: hatch on git commits, Feed & care, Store & eggs, DNA stats, and Sprout Arena (PvP, friends, CPU practice). Bundled MCP + skill for in-character Cursor Chat.",
+  "icon": "media/marketplace-icon.png",
+  "version": "0.5.36",
+  "publisher": "sprouts",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arambarnett/sprouts-companion.git"
+  },
+  "bugs": {
+    "url": "https://github.com/arambarnett/sprouts-companion/issues"
+  },
+  "homepage": "https://getsprouts.io",
+  "keywords": [
+    "sprouts",
+    "cursor",
+    "vscode",
+    "pet",
+    "companion",
+    "game",
+    "arena"
+  ],
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onView:sprouts.sidebar",
+    "onView:sprouts.mini",
+    "onCommand:sprouts.signIn",
+    "onCommand:sprouts.refresh",
+    "onCommand:sprouts.signOut",
+    "onCommand:sprouts.toggleCompact",
+    "onCommand:sprouts.openSproutChat",
+    "onCommand:sprouts.openMiniPanel",
+    "onCommand:sprouts.openArena",
+    "onCommand:sprouts.openCompanionSidebar",
+    "onCommand:sprouts.setupWorkspaceMcpSkill",
+    "onCommand:sprouts.checkForUpdates",
+    "onCommand:sprouts.resetWorkspaceSetupPrompt",
+    "onCommand:sprouts.copyApiDiagnostics"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "sprouts",
+          "title": "Sprouts",
+          "icon": "media/activity-bar-outline.svg"
+        }
+      ],
+      "panel": [
+        {
+          "id": "sproutsMini",
+          "title": "Sprouts",
+          "icon": "media/activity-bar-outline.svg"
+        }
+      ]
+    },
+    "views": {
+      "sprouts": [
+        {
+          "type": "webview",
+          "id": "sprouts.sidebar",
+          "name": "Sprout"
+        }
+      ],
+      "sproutsMini": [
+        {
+          "type": "webview",
+          "id": "sprouts.mini",
+          "name": "Mini"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "sprouts.signIn",
+        "title": "Sprouts: Sign in"
+      },
+      {
+        "command": "sprouts.signOut",
+        "title": "Sprouts: Sign out"
+      },
+      {
+        "command": "sprouts.refresh",
+        "title": "Sprouts: Refresh panel"
+      },
+      {
+        "command": "sprouts.toggleCompact",
+        "title": "Sprouts: Toggle compact view"
+      },
+      {
+        "command": "sprouts.openSproutChat",
+        "title": "Sprouts: Open Cursor Chat / Composer (sprout personality in prompt)"
+      },
+      {
+        "command": "sprouts.openMiniPanel",
+        "title": "Sprouts: Show Mini panel"
+      },
+      {
+        "command": "sprouts.openArena",
+        "title": "Sprouts: Open Sprout Arena"
+      },
+      {
+        "command": "sprouts.openCompanionSidebar",
+        "title": "Sprouts: Open Sprout (sidebar)"
+      },
+      {
+        "command": "sprouts.setupWorkspaceMcpSkill",
+        "title": "Sprouts: Set up Cursor (MCP + skill in this workspace)"
+      },
+      {
+        "command": "sprouts.checkForUpdates",
+        "title": "Sprouts: Check for extension updates"
+      },
+      {
+        "command": "sprouts.resetWorkspaceSetupPrompt",
+        "title": "Sprouts: Reset workspace MCP setup prompt"
+      },
+      {
+        "command": "sprouts.copyApiDiagnostics",
+        "title": "Sprouts: Copy API diagnostics"
+      }
+    ],
+    "menus": {
+      "menubar/View": [
+        {
+          "command": "sprouts.openCompanionSidebar",
+          "group": "5_sprouts@1"
+        },
+        {
+          "command": "sprouts.setupWorkspaceMcpSkill",
+          "group": "5_sprouts@2"
+        },
+        {
+          "command": "sprouts.openMiniPanel",
+          "group": "5_sprouts@3"
+        },
+        {
+          "command": "sprouts.openArena",
+          "group": "5_sprouts@3b"
+        },
+        {
+          "command": "sprouts.signIn",
+          "group": "5_sprouts@4"
+        },
+        {
+          "command": "sprouts.copyApiDiagnostics",
+          "group": "5_sprouts@4"
+        },
+        {
+          "command": "sprouts.openSproutChat",
+          "group": "5_sprouts@5"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Sprouts",
+      "properties": {
+        "sprouts.apiUrl": {
+          "type": "string",
+          "default": "https://getsprouts.io",
+          "description": "Sprouts API base URL (no trailing slash). Default is production (main site serves /api/*); set http://127.0.0.1:3000 for local backend. Used by the bundled MCP in .cursor/mcp.json when you run setup. When set in Cursor, this overrides ~/.sprouts/config.json from the CLI."
+        },
+        "sprouts.nodePath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to node for .cursor/mcp.json (fixes spawn node ENOENT when Cursor has no Node on PATH). Example: /opt/homebrew/bin/node. Empty = auto-detect at MCP setup time."
+        },
+        "sprouts.notifyOnSave": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, debounce after file saves: refresh Sprout/Mini and occasionally nudge you toward Cursor Chat (MCP + skill)."
+        },
+        "sprouts.enableGreetings": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, show at most one “says hi!” toast per sprout per day, with Open Cursor Chat or Sprout panel."
+        },
+        "sprouts.autoInstallWorkspaceMcp": {
+          "type": "boolean",
+          "default": true,
+          "description": "When true, automatically write .cursor/mcp.json and .cursor/skills/sprouts/ for the opened folder so **sprouts** appears under Tools & MCP (you still turn the server on). When false, use the setup toast or Sprouts: Set up Cursor."
+        },
+        "sprouts.offerWorkspaceSetup": {
+          "type": "boolean",
+          "default": true,
+          "description": "When auto-install is off: offer once to write .cursor/mcp.json + skill when this workspace does not yet point MCP at this extension."
+        },
+        "sprouts.githubAppInstallUrl": {
+          "type": "string",
+          "default": "",
+          "description": "Optional https URL to install the Sprouts GitHub App (e.g. https://github.com/apps/your-app/installations/new). Shown in Settings when the API does not return githubAppInstallUrl — useful for self-hosted APIs."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "bundle-mcp": "esbuild ../../packages/sprouts-mcp/src/index.ts --bundle --platform=node --target=node20 --format=cjs --outfile=mcp/sprouts-mcp.cjs",
+    "bundle-viewport": "esbuild media-src/viewport.ts --bundle --platform=browser --format=iife --outfile=media/dist/sprouts-viewport.js --minify",
+    "bundle-pixel-sprite": "esbuild media-src/pixel-sprite.ts --bundle --platform=browser --format=iife --outfile=media/dist/sprouts-pixel.js",
+    "sync-3d-models": "node scripts/sync-3d-models.mjs",
+    "rasterize-icons": "node scripts/rasterize-icons.cjs",
+    "verify-extension": "node scripts/verify-extension.cjs",
+    "vscode:prepublish": "npm run compile && npm run bundle-mcp && npm run bundle-pixel-sprite",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "package": "npx @vscode/vsce package --no-dependencies",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:minor": "npm version minor --no-git-tag-version",
+    "version:major": "npm version major --no-git-tag-version"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.25.0",
+    "typescript": "^5.3.3"
+  }
+}

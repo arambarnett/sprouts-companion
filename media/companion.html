@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="__CSP__" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="__CSS_URI__" />
+  </head>
+  <body data-sprouts-media="__MEDIA_ATTR__">
+    <div class="sprouts-shell">
+      <header class="sprouts-top">
+        <h1 class="sprouts-brand" id="sproutsBrandTitle">
+          <span class="sprouts-brand__icon" aria-hidden="true">🌱</span>
+          <span class="sprouts-brand__text" id="sproutsBrandText">Sprouts</span>
+        </h1>
+      </header>
+
+      <div
+        id="mainTablist"
+        class="tabs sprouts-tabs sprouts-tabs--scroll"
+        role="tablist"
+        aria-label="Sprouts"
+      >
+        <button type="button" class="tab active" data-tab="sprout">Sprout</button>
+        <button type="button" class="tab" data-tab="arena">Arena</button>
+        <button type="button" class="tab" data-tab="shop">Shop</button>
+        <button type="button" class="tab" data-tab="settings">Settings</button>
+      </div>
+      <div id="apiMetaLine" class="api-meta hint" aria-live="polite"></div>
+      <div id="accountStrip" class="account-strip hint" aria-live="polite"></div>
+      <div id="authBar" class="auth-bar" role="group" aria-label="Sprouts account">
+        <button type="button" class="ghost auth-bar__btn" id="btnCompanionSignIn">Sign in</button>
+        <button type="button" class="ghost auth-bar__btn" id="btnCompanionSignOut" hidden>Sign out</button>
+      </div>
+      <div id="status" class="err"></div>
+
+      <div id="panelSprout" class="panel active">
+        <div class="pet">
+          <div id="companionCarousel" class="companion-carousel" hidden>
+            <button type="button" class="companion-carousel__btn" id="btnSproutPrev" aria-label="Previous sprout">
+              ‹
+            </button>
+            <div class="companion-carousel__center">
+              <div class="companion-carousel__species" id="carouselSpecies">—</div>
+              <div class="companion-carousel__meta hint" id="carouselMeta"></div>
+            </div>
+            <button type="button" class="companion-carousel__btn" id="btnSproutNext" aria-label="Next sprout">
+              ›
+            </button>
+          </div>
+          <div class="pet__sprite-wrap preview-frame">
+            <canvas
+              id="spriteCanvas"
+              class="pet__canvas"
+              width="64"
+              height="64"
+              aria-label="Sprout sprite preview"
+            ></canvas>
+            <div id="spriteEmojiFallback" class="pet__emoji-fallback" aria-hidden="true" hidden>🥚</div>
+            <img id="sprite" class="pet__fallback pet__fallback--legacy" src="" alt="" hidden />
+          </div>
+          <div id="name" class="stat">Sign in to load your Sprout</div>
+          <p id="sproutMoodLine" class="hint" style="margin: 0.25rem 0 0; font-size: 0.85em; display: none"></p>
+          <p id="sproutNameHint" class="hint sprout-name-hint" data-hint-default="1">
+            <strong>Make a git commit</strong> (panel sync) to earn <strong>Feed</strong> and hatch your oldest egg. Hatch picks a
+            random name; you can edit the display name below.
+          </p>
+          <div class="sprout-name-row">
+            <input type="text" id="sproutNameInput" maxlength="48" placeholder="Sprout name" autocomplete="off" />
+            <button type="button" id="btnSaveName" class="ghost sprout-name-row__btn">Save name</button>
+          </div>
+          <div id="shareStrip" class="share-strip" aria-label="Screenshot share strip" hidden>
+            <div class="share-strip__brand" id="shareStripBrand">Sprouts</div>
+            <div class="share-strip__title" id="shareStripTitle">—</div>
+            <div class="share-strip__stats" id="shareStripStats"></div>
+          </div>
+          <div id="statDetail" class="stat-row"></div>
+          <div id="hatchPanel" class="hatch-panel" style="display: none">
+            <p class="hatch-panel__lede">
+              This sprout is still an egg. You can own several eggs and incubate them at the same time (one
+              incubator per egg). Eggs hatch on a credited <strong>git commit</strong> (Sprouts panel sync)—if you have
+              more than one egg, the <strong>oldest</strong> hatches first, one per commit. Use the button below to
+              open <strong>Shop → Eggs</strong> to attach incubators.
+            </p>
+            <div class="hatch-panel__actions">
+              <button type="button" id="btnIncubateEgg" class="hatch-panel__cta">Incubate egg</button>
+            </div>
+          </div>
+          <div id="hatchOverlay" class="hatch-overlay" aria-hidden="true">
+            <div class="hatch-overlay__inner">
+              <div class="hatch-overlay__egg" id="hatchOverlayEgg">🥚</div>
+              <p class="hatch-overlay__msg" id="hatchOverlayMsg">Something wonderful is happening…</p>
+            </div>
+          </div>
+          <div class="companion-detail" id="companionDetail" hidden>
+            <div class="companion-subtabs companion-subtabs--scroll" role="tablist" aria-label="Sprout details">
+              <button type="button" class="companion-subtab active" data-subtab="vitals" role="tab" aria-selected="true">
+                Vitals
+              </button>
+              <button type="button" class="companion-subtab" data-subtab="attributes" role="tab" aria-selected="false">
+                Stats
+              </button>
+              <button type="button" class="companion-subtab" data-subtab="moves" role="tab" aria-selected="false">
+                Moves
+              </button>
+            </div>
+            <div class="companion-subpanels">
+              <div class="companion-subpanel active" data-subpanel="vitals" role="tabpanel">
+                <div class="ide-statbars">
+                  <div class="ide-statbar">
+                    <div class="ide-statbar__label"><span class="ide-statbar__ico" aria-hidden="true">🌙</span> Rest</div>
+                    <div class="ide-statbar__track"><div class="ide-statbar__fill ide-statbar__fill--rest" id="barRest"></div></div>
+                    <div class="ide-statbar__pct" id="pctRest">0%</div>
+                  </div>
+                  <div class="ide-statbar">
+                    <div class="ide-statbar__label"><span class="ide-statbar__ico" aria-hidden="true">💧</span> Water</div>
+                    <div class="ide-statbar__track"><div class="ide-statbar__fill ide-statbar__fill--water" id="barWater"></div></div>
+                    <div class="ide-statbar__pct" id="pctWater">0%</div>
+                  </div>
+                  <div class="ide-statbar">
+                    <div class="ide-statbar__label"><span class="ide-statbar__ico" aria-hidden="true">🌿</span> Food</div>
+                    <div class="ide-statbar__track"><div class="ide-statbar__fill ide-statbar__fill--food" id="barFood"></div></div>
+                    <div class="ide-statbar__pct" id="pctFood">0%</div>
+                  </div>
+                  <div class="ide-statbar">
+                    <div class="ide-statbar__label"><span class="ide-statbar__ico" aria-hidden="true">🛡</span> Health</div>
+                    <div class="ide-statbar__track"><div class="ide-statbar__fill ide-statbar__fill--health" id="barHealth"></div></div>
+                    <div class="ide-statbar__pct" id="pctHealth">0%</div>
+                  </div>
+                </div>
+                <div id="vitalsReviveWrap" class="vitals-revive-wrap" hidden>
+                  <p class="hint screen-card__hint" style="margin-top: 0.75rem">
+                    This Sprout has passed on. Spend <strong>500 Feed</strong> to bring them back with full vitals.
+                  </p>
+                  <button type="button" id="btnReviveSprout" class="btn-primary" style="margin-top: 0.35rem">
+                    Revive (500 Feed)
+                  </button>
+                  <p id="vitalsReviveStatus" class="hint screen-card__hint" role="status" style="margin-top: 0.35rem"></p>
+                </div>
+              </div>
+              <div class="companion-subpanel" data-subpanel="attributes" role="tabpanel">
+                <div id="sproutIdentityPanel" class="detail-stack sprout-identity-stack" aria-label="Sprout info"></div>
+                <div class="attr-ide-header">
+                  <div class="attr-ide-header__col">
+                    <span class="attr-ide-header__kicker">Attribute points</span>
+                    <div class="attr-ide-header__points" id="attrPointsLine">—</div>
+                  </div>
+                  <div class="attr-ide-header__col attr-ide-header__col--right">
+                    <span class="attr-ide-header__kicker">Level <span id="attrLevelVal">—</span></span>
+                    <div class="bar-track attr-xp-track"><div class="bar-fill attr-xp-fill" id="attrXpBar"></div></div>
+                    <span class="attr-ide-header__xp" id="attrXpNum">—</span>
+                  </div>
+                </div>
+                <div id="sproutLevelUpRow" class="sprout-level-up-row" hidden>
+                  <button type="button" id="btnSproutLevelUp" class="btn-secondary sprout-level-up-row__btn">
+                    Level up (Feed + XP)
+                  </button>
+                  <p class="hint sprout-level-up-row__hint" id="sproutLevelUpHint">Loading cost…</p>
+                  <p class="hint sprout-level-up-row__status" id="sproutLevelUpStatus" role="status"></p>
+                </div>
+                <div id="attrBuildStats" class="attr-build-stats" aria-label="Trainable stats"></div>
+                <div id="attributesPanelBody" class="detail-stack ide-detail-stack"></div>
+              </div>
+              <div class="companion-subpanel" data-subpanel="moves" role="tabpanel">
+                <div id="arenaMovesPanelBody" class="detail-stack"></div>
+              </div>
+            </div>
+          </div>
+          <select id="sproutPick" class="sprout-pick" aria-label="Choose sprout"></select>
+        </div>
+        <div class="composer-callout">
+          <div class="composer-actions composer-actions--primary">
+            <button type="button" id="btnOpenChat" class="btn-primary">Open Cursor Chat</button>
+            <button type="button" id="btnSetupFromCallout" class="ghost">MCP + skill</button>
+          </div>
+          <details class="composer-callout__details">
+            <summary class="composer-callout__summary">How chat &amp; preview work</summary>
+            <p class="hint composer-callout__text">
+              Talk to your Sprout in <strong>Cursor Chat / Composer</strong> — enable the <strong>sprouts</strong> MCP server and
+              <strong>sprouts</strong> skill. If <strong>sprouts</strong> is missing under <strong>Settings → Tools &amp; MCP</strong>, use
+              <strong>MCP + skill</strong> above or <span class="nowrap">Settings → Connect MCP + Skill</span>, then reload and turn the server on.
+            </p>
+            <p class="hint composer-callout__hint">
+              <strong>Tip:</strong> Preview uses procedural 64×64 pixels (same as Pixel Lab), driven by vitals and mood from the API.
+            </p>
+          </details>
+          <button type="button" id="btnOpenVsx" class="ghost composer-callout__vsx">Extension page (Open VSX)</button>
+        </div>
+      </div>
+
+      <div id="panelShop" class="panel">
+        <div class="shop-subtabs sprouts-tabs sprouts-tabs--scroll" role="tablist" aria-label="Shop sections">
+          <button type="button" class="shop-subtab active" data-shop-tab="care">Care</button>
+          <button type="button" class="shop-subtab" data-shop-tab="wardrobe">Wardrobe</button>
+          <button type="button" class="shop-subtab" data-shop-tab="season">Season</button>
+          <button type="button" class="shop-subtab" data-shop-tab="store">Pass</button>
+          <button type="button" class="shop-subtab" data-shop-tab="eggs">Eggs</button>
+        </div>
+        <div class="shop-subpanels">
+          <div class="shop-subpanel active" data-shop-panel="care">
+            <div class="screen-card screen-card--feed">
+              <div class="screen-card__kicker">Care</div>
+              <h2 class="screen-card__title">Feed your Sprout</h2>
+              <p class="screen-card__lede">
+                Earn <strong>Feed</strong> by <strong>making git commits</strong> while the Sprouts panel syncs your repo. Spend Feed here to
+                boost <em>rest</em>, <em>water</em>, or <em>food</em> for the sprout you pick on the Sprout tab.
+              </p>
+              <div class="feed-balance-pill" id="foodBal">Feed balance: —</div>
+              <p id="feedApiErr" class="err screen-card__api-err" style="display: none"></p>
+              <div id="feedPickHint" class="hint screen-card__hint">Select a sprout on the Sprout tab first.</div>
+              <div class="feed-actions feed-actions--cards">
+                <button type="button" class="feed-card" data-feed="rest">
+                  <span class="feed-card__emoji" aria-hidden="true">🌙</span>
+                  <span class="feed-card__label">Rest</span>
+                  <span class="feed-card__cost">10 Feed</span>
+                </button>
+                <button type="button" class="feed-card" data-feed="water">
+                  <span class="feed-card__emoji" aria-hidden="true">💧</span>
+                  <span class="feed-card__label">Water</span>
+                  <span class="feed-card__cost">10 Feed</span>
+                </button>
+                <button type="button" class="feed-card" data-feed="food">
+                  <span class="feed-card__emoji" aria-hidden="true">🌿</span>
+                  <span class="feed-card__label">Food</span>
+                  <span class="feed-card__cost">10 Feed</span>
+                </button>
+              </div>
+              <div id="feedStatus" class="feed-toast" role="status"></div>
+            </div>
+          </div>
+          <div class="shop-subpanel" data-shop-panel="wardrobe">
+            <div class="screen-card">
+              <div class="screen-card__kicker">Customization</div>
+              <h2 class="screen-card__title">Wardrobe</h2>
+              <p class="screen-card__lede">
+                Cosmetics unlock from <strong>credited git commits</strong>. Tap a piece below to preview it on your Sprout (pixel pipeline matches the Sprout tab).
+              </p>
+              <div class="wardrobe-preview-wrap preview-frame">
+                <canvas
+                  id="wardrobePreviewCanvas"
+                  class="pet__canvas wardrobe-preview-canvas"
+                  width="64"
+                  height="64"
+                  aria-label="Wardrobe preview"
+                ></canvas>
+                <p id="wardrobePreviewHint" class="hint wardrobe-preview-hint" role="status"></p>
+              </div>
+              <div id="wardrobeUnlockGrid" class="wardrobe-unlock-grid" aria-live="polite"></div>
+              <p class="hint screen-card__hint">
+                Make commits while the panel syncs git; the server credits new SHAs (daily cap applies). Pass-only cosmetics still need an active Season Pass after you hit the commit milestone.
+              </p>
+            </div>
+          </div>
+          <div class="shop-subpanel" data-shop-panel="season">
+            <div class="screen-card">
+              <div class="screen-card__kicker">Season 1</div>
+              <h2 class="screen-card__title">The Builder</h2>
+
+              <div id="seasonPassUpsell" class="season-pass-upsell">
+                <p class="screen-card__lede">
+                  The game stays <strong>free</strong>. <strong>Sprouts Pro</strong> (Season Pass) is for <strong>cosmetics</strong> and extras: bonus Feed/XP on commits, monthly eggs and incubators, and pass-only looks on the reward track.
+                </p>
+                <div class="season-pass-upsell__price" id="seasonPassUpsellPrice">$6.99/mo</div>
+                <p class="hint" id="seasonPassUpsellBilling">Billed monthly (Stripe). Cancel anytime.</p>
+                <button type="button" class="btn-primary season-pass-upsell__cta" id="btnBuySeasonPassSeasonTab">
+                  Get Season Pass
+                </button>
+                <h3 class="screen-card__title screen-card__title--sub">Included while subscribed</h3>
+                <ul class="season-reward-list season-reward-list--upsell" id="seasonPassUpsellList"></ul>
+              </div>
+
+              <div id="seasonPassMember" class="season-pass-member" hidden>
+                <p class="screen-card__lede">
+                  You have <strong>Sprouts Pro</strong>. Keep earning <strong>credited commits</strong> to unlock the track below.
+                </p>
+                <div class="season-pass-summary" id="seasonPassSummary">
+                  <div class="season-pass-summary__row">
+                    <span class="hint">Credited commits</span>
+                    <strong id="seasonPassCommits">0</strong>
+                  </div>
+                  <div class="season-pass-bar">
+                    <div class="season-pass-bar__fill" id="seasonPassBarFill" style="width: 0%"></div>
+                  </div>
+                  <p class="hint season-pass-next" id="seasonPassNext"></p>
+                </div>
+                <h3 class="screen-card__title screen-card__title--sub">Reward track</h3>
+                <ul class="season-reward-list" id="seasonRewardList"></ul>
+              </div>
+            </div>
+          </div>
+          <div class="shop-subpanel" data-shop-panel="store">
+            <div class="screen-card screen-card--store">
+              <div class="screen-card__kicker">Shop</div>
+              <h2 class="screen-card__title">Season 1 Pass</h2>
+              <p class="screen-card__lede">
+                Season Pass is <strong>$6.99/mo</strong>. The IDE shop is <strong>Season Pass only</strong> for Season 1. Use <strong>Care</strong> for vitals, <strong>Eggs</strong> for incubators and hatching. See <strong>Season</strong> here for the full reward list.
+              </p>
+              <div id="storeSeasonPassCard" class="shop-list shop-list--grid"></div>
+              <p id="shopErr" class="err screen-card__api-err"></p>
+            </div>
+          </div>
+          <div class="shop-subpanel" data-shop-panel="eggs">
+            <div class="screen-card screen-card--incubator">
+              <div class="screen-card__kicker">Lab</div>
+              <h2 class="screen-card__title">Incubation</h2>
+              <p class="screen-card__lede">
+                Choose an <strong>egg</strong> below, attach an incubator you own, or buy <strong>Premium</strong> /
+                <strong>Super</strong> with Feed. Hatching happens on a credited <strong>git commit</strong> (oldest egg
+                first). The preview shows the <strong>incubator</strong> sprite (egg inside when one is selected).
+              </p>
+              <div class="incubator-tab-preview preview-frame">
+                <canvas
+                  id="incubatorPreviewCanvas"
+                  class="pet__canvas pet__canvas--incubator-tab"
+                  width="64"
+                  height="64"
+                  aria-label="Incubator preview"
+                ></canvas>
+              </div>
+              <label class="incubator-tab-field">
+                <span class="incubator-tab-field__label">Egg sprout</span>
+                <select id="incubatorEggPick" class="sprout-pick incubator-tab-select" aria-label="Egg to equip"></select>
+              </label>
+              <p id="incubatorTabHint" class="hint screen-card__hint">
+                Sign in and select an egg. Earn <strong>Feed</strong> from commits (Sprout tab sync); buy Premium/Super incubators with Feed below.
+              </p>
+              <h3 class="screen-card__title screen-card__title--sub">Buy with Feed</h3>
+              <div id="incubatorTabCatalog" class="shop-list shop-list--grid"></div>
+              <h3 class="screen-card__title screen-card__title--sub">Your incubators</h3>
+              <div id="incubatorTabOwned" class="shop-list shop-list--grid"></div>
+              <p id="incubatorTabStatus" class="hint screen-card__hint" role="status"></p>
+              <p id="incubatorTabErr" class="err screen-card__api-err"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="panelArena" class="panel">
+        <div class="settings-screen">
+          <div class="settings-screen__intro">
+            <span class="settings-screen__kicker">Battles</span>
+            <h2 class="settings-screen__title">Sprout Arena</h2>
+            <p class="hint">
+              PvP, friends, matchmaking, and CPU practice run in a dedicated editor panel so you have room to play.
+            </p>
+          </div>
+          <div class="settings-cards">
+            <button type="button" class="settings-row" id="btnOpenArenaFromTab">
+              <div class="settings-row__icon settings-row__icon--green">⚔</div>
+              <div class="settings-row__text">
+                <div class="settings-row__title">Open Sprout Arena</div>
+                <div class="settings-row__sub">Full-size arena UI in an editor tab</div>
+              </div>
+              <span class="settings-row__chev" aria-hidden="true">›</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="panelSettings" class="panel">
+        <div class="settings-screen">
+          <div class="settings-screen__intro">
+            <span class="settings-screen__kicker">Configuration</span>
+            <h2 class="settings-screen__title">Settings</h2>
+            <div id="updateBanner" class="hint settings-update-banner" aria-live="polite"></div>
+          </div>
+          <div class="settings-cards">
+            <button type="button" class="settings-row" id="btnSetup">
+              <div class="settings-row__icon settings-row__icon--green">✦</div>
+              <div class="settings-row__text">
+                <div class="settings-row__title">Connect MCP + Skill</div>
+                <div class="settings-row__sub">Write .cursor/mcp.json and skill into this workspace</div>
+              </div>
+              <span class="settings-row__chev" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="settings-row" id="btnOpenFromSettings">
+              <div class="settings-row__icon settings-row__icon--blue">💬</div>
+              <div class="settings-row__text">
+                <div class="settings-row__title">Open Cursor Chat</div>
+                <div class="settings-row__sub">Talk to your Sprout with MCP + skill enabled</div>
+              </div>
+              <span class="settings-row__chev" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="settings-row" id="btnOpenArenaFromSettings">
+              <div class="settings-row__icon settings-row__icon--green">⚔</div>
+              <div class="settings-row__text">
+                <div class="settings-row__title">Sprout Arena</div>
+                <div class="settings-row__sub">Friends, matchmaking, and PvP in a larger panel</div>
+              </div>
+              <span class="settings-row__chev" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="settings-row" id="btnUpdatesFromSettings">
+              <div class="settings-row__icon settings-row__icon--muted">↻</div>
+              <div class="settings-row__text">
+                <div class="settings-row__title">Check for updates</div>
+                <div class="settings-row__sub">Compare this extension to Open VSX / GitHub</div>
+              </div>
+              <span class="settings-row__chev" aria-hidden="true">›</span>
+            </button>
+          </div>
+          <div class="github-link-card">
+            <div class="github-link-card__kicker">GitHub App</div>
+            <h3 class="github-link-card__title">Credit commits from pushes</h3>
+            <p class="hint github-link-card__lede">
+              Optional if you already earn from <strong>local git</strong> while this panel syncs. Connect GitHub so
+              <strong>pushes</strong> can credit commits when the IDE isn’t open.
+            </p>
+            <p class="hint github-link-card__lede">
+              <strong>1.</strong> Click <strong>Install GitHub App</strong> below and choose repos on GitHub.
+              <strong>2.</strong> Copy your <strong>installation ID</strong> from the Configure URL:
+              <code class="settings-attribution__code">…/installations/12345678</code> — or
+              <strong>GitHub → Settings → Applications → Installed GitHub Apps → Sprouts → Configure</strong>.
+              <strong>3.</strong> Paste the ID and click <strong>Link</strong>.
+            </p>
+            <div class="github-link-card__install-row">
+              <button type="button" class="ghost github-link-card__install-btn" id="btnInstallGithubApp" hidden>
+                Install GitHub App (browser)
+              </button>
+            </div>
+            <p id="githubInstallMissingHint" class="hint github-install-missing" hidden>
+              No install link yet. Set <code class="settings-attribution__code">GITHUB_APP_SLUG</code> or
+              <code class="settings-attribution__code">GITHUB_APP_INSTALL_URL</code> on your Sprouts API, or add
+              <strong>Sprouts › GitHub App install URL</strong> in editor settings (https URL).
+            </p>
+            <div class="github-link-card__row">
+              <input
+                type="text"
+                id="githubInstallationId"
+                class="github-link-card__input"
+                placeholder="Installation ID (e.g. 12345678)"
+                inputmode="numeric"
+                autocomplete="off"
+              />
+              <button type="button" class="btn-primary github-link-card__btn" id="btnGithubLink">Link</button>
+            </div>
+            <p id="githubLinkStatus" class="hint github-link-card__status" role="status"></p>
+          </div>
+          <p class="settings-attribution hint">
+            Sprites: procedural 64² palette (IDE pipeline). Bundled as
+            <code class="settings-attribution__code">media/dist/sprouts-pixel.js</code>.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script src="__PIXEL_JS_URI__"></script>
+    <script src="__JS_URI__"></script>
+  </body>
+</html>

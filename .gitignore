@@ -1,0 +1,5 @@
+# From npm run sync-3d-models — do not commit or ship in VSIX
+media/models/*.glb
+
+# Local packaging output
+*.vsix

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="__CSP__" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="__CSS_URI__" />
+  </head>
+  <body class="arena-body arena-proto" data-sprouts-media="__MEDIA_ATTR__">
+    <div id="arenaSignedOut" class="arena-signed-out arena-proto-signout" hidden>
+      <p class="arena-proto-muted">Sign in to use Sprout Arena.</p>
+      <button type="button" class="arena-proto-btn arena-proto-btn--primary" id="arenaBtnSignIn">
+        Sign in
+      </button>
+    </div>
+
+    <div id="arenaApp" class="arena-app arena-proto-app" hidden>
+      <header class="arena-proto-chrome">
+        <span class="arena-proto-chrome-spacer"></span>
+        <div class="arena-proto-chrome-actions">
+          <button type="button" class="arena-proto-btn arena-proto-btn--ghost" id="arenaBtnRefresh">
+            Refresh
+          </button>
+          <button type="button" class="arena-proto-btn arena-proto-btn--ghost" id="arenaBtnSignOut">
+            Sign out
+          </button>
+        </div>
+      </header>
+
+      <div class="arena-proto-stage">
+      <!-- Main menu (prototype layout) -->
+      <div id="arenaViewMenu" class="arena-proto-view">
+        <div class="arena-proto-bg-glow" aria-hidden="true"></div>
+        <div class="arena-proto-hero">
+          <h1 class="arena-proto-title">
+            SPROUT <span class="arena-proto-title-accent">ARENA</span>
+          </h1>
+          <p class="arena-proto-subtitle">Beta Build • v0.2</p>
+        </div>
+
+        <div class="arena-proto-grid">
+          <div class="arena-proto-card arena-proto-card--player">
+            <div class="arena-proto-sprite-frame">
+              <canvas
+                id="arenaMenuCanvas"
+                class="arena-proto-canvas arena-proto-canvas--menu"
+                width="64"
+                height="64"
+                aria-hidden="true"
+              ></canvas>
+              <div id="arenaMenuEmoji" class="arena-proto-emoji-fallback" aria-hidden="true">🥚</div>
+            </div>
+            <div class="arena-proto-player-meta">
+              <h2 id="arenaMenuSproutName" class="arena-proto-player-name">—</h2>
+              <div class="arena-proto-player-row">
+                <span id="arenaMenuLevel" class="arena-proto-pill">LVL —</span>
+              </div>
+              <p id="arenaMenuHint" class="arena-proto-muted arena-proto-hint"></p>
+            </div>
+          </div>
+
+          <div class="arena-proto-card arena-proto-card--nav">
+            <button type="button" class="arena-proto-nav-btn" id="arenaNavPvp" data-nav="pvp">
+              <span class="arena-proto-nav-icon arena-proto-nav-icon--red" aria-hidden="true">⚔</span>
+              <span class="arena-proto-nav-text">
+                <span class="arena-proto-nav-label">PvP Arena</span>
+                <span class="arena-proto-nav-desc">Challenge other sprouts</span>
+              </span>
+              <span class="arena-proto-nav-chev" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="arena-proto-nav-btn" id="arenaNavCpu" data-nav="cpu">
+              <span class="arena-proto-nav-icon arena-proto-nav-icon--blue" aria-hidden="true">🖥</span>
+              <span class="arena-proto-nav-text">
+                <span class="arena-proto-nav-label">CPU Practice</span>
+                <span class="arena-proto-nav-desc">Test your moves vs AI</span>
+              </span>
+              <span class="arena-proto-nav-chev" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="arena-proto-nav-btn" id="arenaNavRoster" data-nav="roster">
+              <span class="arena-proto-nav-icon arena-proto-nav-icon--yellow" aria-hidden="true">💼</span>
+              <span class="arena-proto-nav-text">
+                <span class="arena-proto-nav-label">My Roster</span>
+                <span class="arena-proto-nav-desc">Manage your team</span>
+              </span>
+              <span class="arena-proto-nav-chev" aria-hidden="true">›</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="arena-proto-menu-footer-wrap">
+          <p class="arena-proto-footer">© 2026 Sprouts • IDE Arena</p>
+        </div>
+      </div>
+
+      <!-- PvP hub: friends, queue, email challenges -->
+      <div id="arenaViewPvp" class="arena-proto-view arena-proto-view--sub" hidden>
+        <div class="arena-proto-subbar">
+          <button type="button" class="arena-proto-btn arena-proto-btn--ghost" id="arenaPvpBack">
+            ← Back
+          </button>
+          <span class="arena-proto-subbar-title" aria-hidden="true">Friends &amp; matchmaking</span>
+        </div>
+        <div id="arenaPvpContent" class="arena-proto-scroll custom-scrollbar"></div>
+      </div>
+
+      <!-- Battle (Game Boy–style field + dialogue + commands) -->
+      <div id="arenaViewBattle" class="arena-proto-view arena-proto-view--sub arena-proto-view--battle" hidden>
+        <div class="arena-proto-subbar arena-proto-subbar--battle">
+          <button type="button" class="arena-proto-btn arena-proto-btn--ghost" id="arenaBattleBack">
+            Exit
+          </button>
+          <span class="arena-proto-subbar-title" aria-hidden="true">Battle</span>
+        </div>
+        <div class="arena-gb-root">
+          <div class="arena-gb-field" aria-hidden="true">
+            <div class="arena-gb-opponent-row">
+              <div class="arena-gb-status arena-gb-status--foe">
+                <div class="arena-gb-status-inner">
+                  <div class="arena-gb-name-row">
+                    <span id="arenaGbOppName" class="arena-gb-name"></span>
+                    <span id="arenaGbOppLv" class="arena-gb-lv"></span>
+                  </div>
+                  <div class="arena-gb-hp-row">
+                    <span class="arena-gb-hp-tag">HP</span>
+                    <div class="arena-gb-hp-track">
+                      <div id="arenaGbOppHpFill" class="arena-gb-hp-fill"></div>
+                    </div>
+                  </div>
+                  <div id="arenaGbOppHpNums" class="arena-gb-hp-nums"></div>
+                  <div id="arenaGbOppAtk" class="arena-gb-stat-sub"></div>
+                </div>
+              </div>
+              <div class="arena-gb-sprite-wrap arena-gb-sprite-wrap--foe">
+                <canvas
+                  id="arenaCanvasOpp"
+                  class="arena-gb-canvas"
+                  width="64"
+                  height="64"
+                  aria-hidden="true"
+                ></canvas>
+              </div>
+            </div>
+            <div class="arena-gb-ground-line"></div>
+            <div class="arena-gb-player-row">
+              <div class="arena-gb-sprite-wrap arena-gb-sprite-wrap--you">
+                <canvas
+                  id="arenaCanvasYou"
+                  class="arena-gb-canvas"
+                  width="64"
+                  height="64"
+                  aria-hidden="true"
+                ></canvas>
+              </div>
+              <div class="arena-gb-status arena-gb-status--you">
+                <div class="arena-gb-status-inner">
+                  <div class="arena-gb-name-row">
+                    <span id="arenaGbYouName" class="arena-gb-name"></span>
+                    <span id="arenaGbYouLv" class="arena-gb-lv"></span>
+                  </div>
+                  <div class="arena-gb-hp-row">
+                    <span class="arena-gb-hp-tag">HP</span>
+                    <div class="arena-gb-hp-track">
+                      <div id="arenaGbYouHpFill" class="arena-gb-hp-fill"></div>
+                    </div>
+                  </div>
+                  <div id="arenaGbYouHpNums" class="arena-gb-hp-nums"></div>
+                  <div id="arenaGbYouAtk" class="arena-gb-stat-sub"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="arena-gb-dialogue" id="arenaGbDialogue">
+            <p class="arena-gb-dialogue-text" id="arenaGbDialogueText"></p>
+          </div>
+          <div id="arenaBattleMain" class="arena-gb-commands"></div>
+        </div>
+      </div>
+      </div>
+    </div>
+
+    <script src="__PIXEL_JS_URI__"></script>
+    <script src="__ARENA_JS_URI__"></script>
+  </body>
+</html>

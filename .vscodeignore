@@ -1,0 +1,23 @@
+.vscode/**
+.vscode-test/**
+src/**
+.gitignore
+**/tsconfig.json
+**/*.map
+
+# Build / dev-only (runtime webview uses media/dist/*.js + html/css)
+media-src/**
+scripts/**
+
+# 3D — not used in sprite UI; keep local sync out of VSIX
+media/models/**/*.glb
+
+# Unused marketing asset
+media/sprouts-app-icon.png
+
+# Legacy species PNGs excluded from VSIX (procedural sprite + 🥚 emoji if pixel bundle fails)
+media/fox.png
+media/owl.png
+media/deer.png
+media/penguin.png
+media/rabbit.png

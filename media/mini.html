@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="Content-Security-Policy" content="__CSP__" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="__CSS_URI__" />
+  </head>
+  <body class="mini-body" data-sprouts-media="__MEDIA_ATTR__">
+    <div class="mini-shell">
+      <nav class="mini-sidebar-nav" aria-label="Open sidebar sections">
+        <div class="mini-sidebar-nav__label">Open in sidebar</div>
+        <div class="mini-sidebar-nav__row">
+          <button type="button" class="mini-jump" data-mini-tab="sprout">Sprout</button>
+          <button type="button" class="mini-jump" data-mini-tab="feed">Care</button>
+          <button type="button" class="mini-jump" data-mini-tab="wardrobe">Wardrobe</button>
+          <button type="button" class="mini-jump" data-mini-tab="season-pass">Season</button>
+          <button type="button" class="mini-jump" data-mini-tab="store">Pass</button>
+          <button type="button" class="mini-jump" data-mini-tab="incubator">Eggs</button>
+        </div>
+      </nav>
+      <div id="miniHome" class="mini-home">
+      <div class="mini-card">
+        <div id="miniPetThumb" class="mini-card__thumb-wrap mini-pet-thumb">
+          <canvas id="miniSpriteCanvas" class="mini-card__canvas" width="64" height="64" aria-hidden="true" hidden></canvas>
+          <div id="miniEmojiFallback" class="mini-card__emoji-fallback" aria-hidden="true">🥚</div>
+        </div>
+        <div class="mini-card__main">
+          <div id="miniTitle" class="mini-card__title">Sprouts</div>
+          <div id="miniMood" class="mini-card__subtitle">—</div>
+          <div class="mini-needs needs-bars">
+            <div class="need-row need-row--compact">
+              <span>Rest</span>
+              <div class="bar-track"><div class="bar-fill" id="barRest"></div></div>
+            </div>
+            <div class="need-row need-row--compact">
+              <span>Water</span>
+              <div class="bar-track"><div class="bar-fill" id="barWater"></div></div>
+            </div>
+            <div class="need-row need-row--compact">
+              <span>Food</span>
+              <div class="bar-track"><div class="bar-fill" id="barFood"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mini-actions">
+        <div class="mini-actions__row">
+          <button type="button" class="mini-actions__primary" id="miniBtnChat">Open Cursor Chat</button>
+          <button type="button" class="mini-actions__secondary" id="miniBtnSignOut" hidden>Sign out</button>
+        </div>
+        <div class="mini-actions__row mini-actions__row--arena">
+          <button type="button" class="mini-actions__arena" id="miniBtnArena" disabled title="Sign in to open Arena">
+            <span class="mini-actions__arena-label">Open Sprout Arena</span>
+            <span id="miniArenaBadge" class="mini-actions__arena-badge" hidden aria-hidden="true"></span>
+          </button>
+        </div>
+        <p class="mini-actions__hint">
+          <strong>Cursor Chat:</strong> enable the <strong>sprouts</strong> MCP server (Tools &amp; MCP) and use the Sprouts skill so the model can read your sprout’s stats and personality. If <strong>sprouts</strong> is missing, open the sidebar → <strong>Settings</strong> → <strong>Set up Cursor</strong> (or run that command from the palette).
+        </p>
+        <p class="mini-actions__hint mini-actions__hint--arena" id="miniArenaHint" hidden>
+          <strong>Arena:</strong> challenge another player by the <strong>email on their Sprouts account</strong>. They’ll see invites here when they open the mini panel (email alerts can be added later). Moves use your sprout’s trainable stats and commit history.
+        </p>
+      </div>
+      </div>
+      <div id="miniGame" class="mini-game" hidden>
+        <div class="mini-game__top">
+          <button type="button" class="mini-game__back" id="miniGameBack">← Back</button>
+          <span class="mini-game__title" id="miniGameTitle">Sprout Arena</span>
+        </div>
+        <div id="miniGameScreen" class="mini-game__screen"></div>
+      </div>
+    </div>
+    <script src="__PIXEL_JS_URI__"></script>
+    <script src="__MINI_JS_URI__"></script>
+  </body>
+</html>

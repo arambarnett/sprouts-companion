@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+  <!-- Monochrome for VS Code / Cursor activity bar (tints with theme) -->
+  <path
+    fill="currentColor"
+    d="M12 3.2c-.9 1.6-2.1 2.8-3.4 3.9-1.9 1.5-3.6 2.9-3.6 5.4 0 3.1 2.5 5.6 5.6 5.6h2.8c3.1 0 5.6-2.5 5.6-5.6 0-2.5-1.7-3.9-3.6-5.4-1.3-1.1-2.5-2.3-3.4-3.9Z"
+  />
+  <path
+    fill="currentColor"
+    d="M10.2 17.5h3.6c.5 0 .9.4.9.9v.6c0 1.1-.9 2-2 2h-1.4c-1.1 0-2-.9-2-2v-.6c0-.5.4-.9.9-.9Z"
+    opacity="0.85"
+  />
+</svg>

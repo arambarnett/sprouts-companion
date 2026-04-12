@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" aria-hidden="true">
+  <!-- Theme-tinted outline (🌱-style sprout); use for activity bar / panel so Cursor/VS Code can composite -->
+  <g stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 22V11" />
+    <path d="M12 11C10 7 6 5 4 2c4 0 8 3 8 9" />
+    <path d="M12 11c2-4 6-6 8-9-4 0-8 3-8 9" />
+  </g>
+</svg>
